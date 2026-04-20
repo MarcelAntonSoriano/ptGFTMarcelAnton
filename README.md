@@ -127,40 +127,6 @@ The project includes three test classes:
 mvn clean install -DskipTests
 ```
 
----
-
-## Project Structure
-
-```
-src/
-├── main/
-│   ├── java/com/manton/ptGFTMarcelAnton/
-│   │   ├── application/
-│   │   │   ├── object/          # Request/Response objects (ProductReq, ProductRes)
-│   │   │   └── usecase/         # Use cases (GetPrice)
-│   │   ├── domain/
-│   │   │   ├── controller/      # REST controllers (ApiController)
-│   │   │   └── dto/             # DTOs (RequestDto, ResponseDto)
-│   │   └── infraestructure/
-│   │       ├── dao/             # Data access (IPricesDao)
-│   │       ├── entity/          # JPA entities (PRICES)
-│   │       ├── mapper/          # Mappers (ProductMapper)
-│   │       └── service/         # Service implementations (PricesServiceImpl)
-│   └── resources/
-│       ├── application.properties
-│       └── data.sql             # Sample data
-└── test/
-    └── java/
-        ├── resources/
-        │   └── ObjectMother.java  # Shared test constants
-        └── com/manton/ptGFTMarcelAnton/
-            ├── application/usecase/   # GetPriceTest
-            ├── domain/controller/     # ApiControllerTest
-            └── infraestructure/       # PricesServiceImplTest
-```
-
----
-
 ## Built With
 
 - [Spring Boot 3.5.7](https://spring.io/projects/spring-boot)

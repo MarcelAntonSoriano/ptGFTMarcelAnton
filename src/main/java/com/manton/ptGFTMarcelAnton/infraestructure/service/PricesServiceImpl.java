@@ -2,6 +2,7 @@ package com.manton.ptGFTMarcelAnton.infraestructure.service;
 
 import com.manton.ptGFTMarcelAnton.application.object.ProductReq;
 import com.manton.ptGFTMarcelAnton.application.object.ProductRes;
+import com.manton.ptGFTMarcelAnton.domain.service.IPricesService;
 import com.manton.ptGFTMarcelAnton.infraestructure.dao.IPricesDao;
 import com.manton.ptGFTMarcelAnton.infraestructure.entity.PRICES;
 import com.manton.ptGFTMarcelAnton.infraestructure.mapper.ProductMapper;

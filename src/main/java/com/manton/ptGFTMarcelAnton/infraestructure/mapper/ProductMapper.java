@@ -2,8 +2,8 @@ package com.manton.ptGFTMarcelAnton.infraestructure.mapper;
 
 import com.manton.ptGFTMarcelAnton.application.object.ProductReq;
 import com.manton.ptGFTMarcelAnton.application.object.ProductRes;
-import com.manton.ptGFTMarcelAnton.domain.dto.RequestDto;
-import com.manton.ptGFTMarcelAnton.domain.dto.ResponseDto;
+import com.manton.ptGFTMarcelAnton.infraestructure.dto.RequestDto;
+import com.manton.ptGFTMarcelAnton.infraestructure.dto.ResponseDto;
 import com.manton.ptGFTMarcelAnton.infraestructure.entity.PRICES;
 import org.springframework.stereotype.Service;
 

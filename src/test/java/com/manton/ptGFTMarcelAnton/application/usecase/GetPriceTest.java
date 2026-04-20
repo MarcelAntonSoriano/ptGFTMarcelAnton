@@ -1,10 +1,8 @@
 package com.manton.ptGFTMarcelAnton.application.usecase;
 
+import com.manton.ptGFTMarcelAnton.application.object.ProductReq;
 import com.manton.ptGFTMarcelAnton.application.object.ProductRes;
-import com.manton.ptGFTMarcelAnton.domain.dto.RequestDto;
-import com.manton.ptGFTMarcelAnton.domain.dto.ResponseDto;
-import com.manton.ptGFTMarcelAnton.infraestructure.mapper.ProductMapper;
-import com.manton.ptGFTMarcelAnton.infraestructure.service.IPricesService;
+import com.manton.ptGFTMarcelAnton.domain.service.IPricesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,8 +10,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Collections;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static resources.ObjectMother.*;
 
@@ -23,12 +23,9 @@ class GetPriceTest {
     private GetPrice getPrice;
 
     @Mock
-    private ProductMapper productMapper;
-
-    @Mock
     private IPricesService pricesService;
 
-    private static final RequestDto REQUEST_DTO = new RequestDto("2020-06-14 15:00:00", PRODUCT_ID, BRAND_ID);
+    private static final ProductReq REQUEST = new ProductReq("2020-06-14 15:00:00", PRODUCT_ID, BRAND_ID);
 
     @BeforeEach
     void setUp() {
@@ -41,16 +38,21 @@ class GetPriceTest {
 
         when(pricesService.getProductService(any())).thenReturn(Collections.singletonList(mockProduct));
 
-        ResponseDto responseDto = new ResponseDto(PRODUCT_ID, BRAND_ID, PRICE_GROUP_FIRST_ENTITY, START_DATE_FIRST_ENTITY, END_DATE_FIRST_ENTITY, PRICE_FIRST_ENTITY);
 
-        when(productMapper.mapProductRestoResponseDto(mockProduct)).thenReturn(responseDto);
+        ProductRes response = getPrice.getProduct(REQUEST);
 
-        ResponseDto response = getPrice.getProduct(REQUEST_DTO);
+
+        assertEquals(PRICE_FIRST_ENTITY, response.getPrice());
+        assertEquals(PRICE_GROUP_FIRST_ENTITY, response.getPriceGroup());
 
         verify(pricesService).getProductService(any());
-        verify(productMapper).mapProductRestoResponseDto(mockProduct);
+    }
+    @Test
+    void testGetProduct_EmptyList_ThrowsNoSuchElementException() {
+        when(pricesService.getProductService(REQUEST)).thenReturn(Collections.emptyList());
 
-        assertEquals(PRICE_FIRST_ENTITY, response.price());
-        assertEquals(PRICE_GROUP_FIRST_ENTITY, response.priceGroup());
+        assertThrows(NoSuchElementException.class, () -> getPrice.getProduct(REQUEST));
+
+        verify(pricesService).getProductService(REQUEST);
     }
 }

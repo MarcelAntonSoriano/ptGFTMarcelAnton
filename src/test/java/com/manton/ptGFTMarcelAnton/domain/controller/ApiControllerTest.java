@@ -1,9 +1,10 @@
 package com.manton.ptGFTMarcelAnton.domain.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manton.ptGFTMarcelAnton.application.object.ProductReq;
+import com.manton.ptGFTMarcelAnton.application.object.ProductRes;
 import com.manton.ptGFTMarcelAnton.application.usecase.GetPrice;
-import com.manton.ptGFTMarcelAnton.domain.dto.RequestDto;
-import com.manton.ptGFTMarcelAnton.domain.dto.ResponseDto;
+import com.manton.ptGFTMarcelAnton.infraestructure.dto.RequestDto;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -48,16 +49,17 @@ public class ApiControllerTest {
     @MethodSource("priceGroups")
     public void getPriceGroups(String date, double expectedPrice, int expectedPriceGroup) throws Exception {
 
-        RequestDto requestDto = new RequestDto(date, PRODUCT_ID, BRAND_ID);
-        ResponseDto responseDto = ResponseDto.builder()
+        ProductReq productReq = new ProductReq(BRAND_ID, PRODUCT_ID, date);
+        ProductRes productRes = ProductRes.builder()
                 .price(expectedPrice)
                 .brandId(BRAND_ID)
                 .priceGroup(expectedPriceGroup)
                 .productId(PRODUCT_ID)
                 .build();
 
-        when(getPrice.getProduct(requestDto)).thenReturn(responseDto);
+        when(getPrice.getProduct(productReq)).thenReturn(productRes);
 
+        RequestDto requestDto = new RequestDto(date, PRODUCT_ID, BRAND_ID);
         mockMvc.perform(get("/getProduct")
                         .content(objectMapper.writeValueAsString(requestDto))
                         .contentType(MediaType.APPLICATION_JSON))
